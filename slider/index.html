@@ -35,7 +35,7 @@
       height: 100%;
       opacity: 0;
       transition: opacity 0.4s ease-in-out;
-      text-decoration: none; /* 링크 밑줄 제거 */
+      cursor: pointer; /* 클릭 가능하도록 설정 */
     }
 
     .slide.current {
@@ -85,9 +85,9 @@
 
 <body>
   <div class="slider">
-    <a href="https://ohou.se/" class="slide current" target="_blank"></a>
-    <a href="https://contents.ohou.se/contents/card_collections/1002868911?affect_type=Home&affect_id=0" class="slide" target="_blank"></a>
-    <a href="https://ohou.se/productions/234515/selling" class="slide" target="_blank"></a>
+    <div class="slide current" data-link="https://ohou.se/"></div>
+    <div class="slide" data-link="https://contents.ohou.se/contents/card_collections/1002868911?affect_type=Home&affect_id=0"></div>
+    <div class="slide" data-link="https://ohou.se/productions/234515/selling"></div>
   </div>
   <div class="buttons">
     <button id="prev"><i class="fas fa-arrow-left"></i></button>
@@ -121,6 +121,15 @@
       }
     };
 
+    slides.forEach((slide) => {
+      slide.addEventListener("click", () => {
+        const link = slide.getAttribute("data-link");
+        if (link) {
+          window.open(link, "_blank"); // 새 창에서 링크 열기
+        }
+      });
+    });
+
     nextButton.addEventListener("click", () => {
       nextSlide();
       if (auto) {
@@ -128,6 +137,7 @@
         slideInterval = setInterval(nextSlide, intervalTime);
       }
     });
+
     prevButton.addEventListener("click", () => {
       prevSlide();
       if (auto) {
